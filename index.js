@@ -57,13 +57,9 @@ app.get("/", () => {
   console.log("root dir gotten!");
 });
 
-app.post("/wednesday", (req, res) => {
-  if (req.body.command === "/wednesday") {
-    handleWednesdayCommand(req.body.channel_id);
-    res.status(200).send("Processing your request, please wait...");
-  } else {
-    res.status(500).send("Invalid command");
-  }
+app.post("/", (req, res) => {
+  handleWednesdayCommand(req.body.channel_id);
+  res.status(200).send("Processing your request, please wait...");
 });
 
 const port = process.env.PORT || 3050;
