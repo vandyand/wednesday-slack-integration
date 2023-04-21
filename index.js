@@ -53,12 +53,16 @@ async function handleWednesdayCommand(channelId) {
   }
 }
 
-app.get("/", (req) => {
-  try {
+app.get("/", () => {
+  <h1>IT'S WEDNESDAY MY DUDES - SLACK INTEGRATION HOME PAGE STYLE!</h1>;
+});
+
+app.post("/wednesday", (req, res) => {
+  if (req.body.command === "/wednesday") {
     handleWednesdayCommand(req.body.channel_id);
     res.status(200).send("Processing your request, please wait...");
-  } catch (error) {
-    console.error("Error posting video:", error);
+  } else {
+    res.status(500).send("Invalid command");
   }
 });
 
