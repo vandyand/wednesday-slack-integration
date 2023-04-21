@@ -54,7 +54,7 @@ async function handleWednesdayCommand(channelId) {
 }
 
 app.get("/", () => {
-  <h1>IT'S WEDNESDAY MY DUDES - SLACK INTEGRATION HOME PAGE STYLE!</h1>;
+  console.log("root dir gotten!");
 });
 
 app.post("/wednesday", (req, res) => {
