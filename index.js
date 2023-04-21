@@ -54,11 +54,11 @@ async function handleWednesdayCommand(channelId) {
 }
 
 app.get("/", (req) => {
-  if (req.body.command === "/wednesday") {
+  try {
     handleWednesdayCommand(req.body.channel_id);
     res.status(200).send("Processing your request, please wait...");
-  } else {
-    res.status(500).send("Invalid command");
+  } catch (error) {
+    console.error("Error posting video:", error);
   }
 });
 
