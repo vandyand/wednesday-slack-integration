@@ -3,12 +3,9 @@ const { WebClient } = require("@slack/web-api");
 const axios = require("axios");
 const express = require("express");
 const bodyParser = require("body-parser");
-const request = require("request");
 
 const SLACK_BOT_TOKEN = process.env.SLACK_BOT_TOKEN;
 const SLACK_SIGNING_SECRET = process.env.SLACK_SIGNING_SECRET;
-const SLACK_CLIENT_ID = process.env.SLACK_CLIENT_ID;
-const SLACK_CLIENT_SECRET = process.env.SLACK_CLIENT_SECRET;
 const YOUTUBE_API_KEY = process.env.YOUTUBE_API_KEY;
 
 const web = new WebClient(SLACK_BOT_TOKEN);
@@ -63,42 +60,6 @@ app.get("/", (req, res) => {
 app.post("/", (req, res) => {
   handleWednesdayCommand(req.body.channel_id);
   res.status(200).send("Processing your request, please wait...");
-});
-
-app.get("/success", (req, res) => {
-  res.send("OAuth process completed successfully.");
-});
-
-app.get("/error", (req, res) => {
-  res.send("An error occurred during the OAuth process.");
-});
-
-app.get("/auth/slack/callback", (req, res) => {
-  const authCode = req.query.code;
-
-  const requestOptions = {
-    url: "https://slack.com/api/oauth.v2.access",
-    method: "POST",
-    form: {
-      client_id: SLACK_CLIENT_ID,
-      client_secret: SLACK_CLIENT_SECRET,
-      code: authCode,
-    },
-    json: true,
-  };
-
-  request(requestOptions, (error, response, body) => {
-    if (!error && response.statusCode == 200) {
-      // Save the access_token (and other relevant information) to your datastore for future use
-      const accessToken = body.access_token;
-
-      // Redirect the user to a success page in your application
-      res.redirect("/success");
-    } else {
-      // Handle errors during the OAuth process
-      res.redirect("/error");
-    }
-  });
 });
 
 const port = process.env.PORT || 3050;
